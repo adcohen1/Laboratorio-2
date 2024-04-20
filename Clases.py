@@ -1,5 +1,5 @@
 import pygame as pg
-
+import sys
 import constantes as c
 
 
