@@ -1,5 +1,7 @@
 import pygame as pg
 
+import constantes as c
+
 
 class Auto(pg.sprite.Sprite):
     def __init__(self, placa, ubicacion):
@@ -28,6 +30,7 @@ class ListaAutos:
         if self.estaVacia():
             head = Nodo(auto)
             head.next = head
+            return True
         if self.existeAuto(auto.placa):
             return False
         head = self.head
@@ -65,3 +68,27 @@ class ListaAutos:
             if temp.auto.placa == placa:
                 return True
         return False
+
+    def existeCelda(self, celda):
+        if self.estaVacia():
+            return False
+        temp = self.head
+        if temp.auto.ubicacion == celda:
+            return True
+        while temp.next != self.head:
+            temp = temp.next
+            if temp.auto.ubicacion == celda:
+                return True
+        return False
+
+
+# otras funciones
+def colocar_auto(mousepos, piso, tipo_vehiculo):
+    if mousepos[1] < 600:
+        return
+    mouse_fila = mousepos[0] // c.cell_size
+    mouse_columna = mousepos[1] // c.cell_size
+
+    celda = (mouse_columna * c.PARQ_COLUMNAS) + mouse_fila
+    if c.pisos[piso][celda] == tipo_vehiculo:
+        pass

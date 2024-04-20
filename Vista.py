@@ -1,4 +1,5 @@
 import pygame as pg
+
 import constantes as c
 
 screen = pg.display.set_mode((c.WIDTH, c.HEIGHT))
@@ -14,7 +15,7 @@ run = True
 
 while run:
 
-#    clock.tick(c.FPS)
+    # clock.tick(c.FPS)
     screen.fill((100, 100, 100))
 
     screen.blit(piso1, (c.FORM_WIDTH, 0))
