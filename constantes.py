@@ -3,7 +3,7 @@ WIDTH = 1980
 HEIGHT = 1080
 
 # dimensiones del panel del paqueadero
-PARQ_WIDTH = 130
+PARQ_WIDTH = 1380
 PARQ_HEIGHT = 1080
 PARQ_FILAS = 20
 PARQ_COLUMNAS = 25

@@ -1,5 +1,5 @@
 import pygame as pg
-
+import Clases
 import constantes as c
 
 screen = pg.display.set_mode((c.WIDTH, c.HEIGHT))
@@ -23,5 +23,12 @@ while run:
         # cerrar el juego
         if event.type == pg.QUIT:
             run = False
+
+        if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+            mouse_pos = pg.mouse.get_pos()
+            if c.FORM_WIDTH < mouse_pos[0] < c.PARQ_WIDTH and 0 < mouse_pos[1] < c.PARQ_HEIGHT:
+                # primero se deben capturar los datos tipo de vehiculo y piso del parqueadero
+                # otra opcion es que el usuario elija el lugar y se capturan los datos de ese punto
+                Clases.colocar_auto(mouse_pos, 'primero', 30)
 
     pg.display.flip()

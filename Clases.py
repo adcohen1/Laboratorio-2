@@ -1,18 +1,62 @@
+import random
+from pathlib import Path
 import pygame as pg
-import sys
 import constantes as c
 
+p = Path('./sprites')
 
-class Auto(pg.sprite.Sprite):
-    def __init__(self, placa, ubicacion):
+
+class Vehiculo(pg.sprite.Sprite):
+    def __init__(self, tipo, placa):
         pg.sprite.Sprite.__init__(self)
+        self.tipo = tipo
         self.placa = placa
-        self.imagen = None
-        # ubicacion del auto
-        self.ubicacion = ubicacion
+        # posicionamiento en parqueadero
+        self.fila = None
+        self.columna = None
+        self.celda = None
+        self.image = self.getSprite(self.celda)
+        # ubicacion una la pantalla
+        self.x = (self.fila + 0.5) * c.cell_size
+        self.y = (self.columna + 0.5) * c.cell_size
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
+        self.movilidad_reducida = False
 
-    '''def getSprite(self):
-        s = 0'''
+    def setSprite(self, celda):
+        celda = 34
+
+        for directorio in p.iterdir():
+            if directorio.parts[-1] == self.tipo:
+                direcciones = [direccion for direccion in directorio.iterdir()]
+                if celda % 3 == 1:
+                    return random.choice(list(direcciones[0].glob('**/*.png')))
+                elif celda % 3 == 0:
+                    return random.choice(list(direcciones[1].glob('**/*.png')))
+                else:
+                    return
+
+    def setPosicion(self, mousepos):
+        self.fila = (mousepos[0] - c.FORM_WIDTH) // c.cell_size
+        self.columna = mousepos[1] // c.cell_size
+        self.celda = (self.columna * c.PARQ_COLUMNAS) + self.fila
+
+
+class Auto(Vehiculo):
+    pass
+
+
+# otras funciones
+def colocar_auto(mousepos, piso, tipo_vehiculo):
+    mouse_fila = (mousepos[0] - c.FORM_WIDTH) // c.cell_size
+    mouse_columna = mousepos[1] // c.cell_size
+    celda = (mouse_columna * c.PARQ_COLUMNAS) + mouse_fila
+    if c.pisos[piso][celda] == tipo_vehiculo:
+        pass
+
+
+class Moto(Vehiculo):
+    pass
 
 
 # Lista de autos estacionados
@@ -80,15 +124,3 @@ class ListaAutos:
             if temp.auto.ubicacion == celda:
                 return True
         return False
-
-
-# otras funciones
-def colocar_auto(mousepos, piso, tipo_vehiculo):
-    if mousepos[1] < 600:
-        return
-    mouse_fila = mousepos[0] // c.cell_size
-    mouse_columna = mousepos[1] // c.cell_size
-
-    celda = (mouse_columna * c.PARQ_COLUMNAS) + mouse_fila
-    if c.pisos[piso][celda] == tipo_vehiculo:
-        pass
